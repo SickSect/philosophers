@@ -15,7 +15,7 @@ void	err(char *error)
 int	main(int argc, char **argv)
 {
 	t_rules	rule;
-	int	init;
+	int		init;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -23,4 +23,6 @@ int	main(int argc, char **argv)
 		return (-1);
 	}
 	init = init_rules(&rule, argv);
+	if (init_mutex(&rule))
+		return (2);
 }

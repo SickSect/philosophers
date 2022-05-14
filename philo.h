@@ -10,9 +10,12 @@
 
 typedef struct s_philo
 {
-	int	left_fork;
-	int	right_fork;
-	int	id;
+	int			left_fork;
+	int			right_fork;
+	int			id;
+	int			ate;
+	struct s_rules		*rules;
+	pthread_t	thread_id;
 }	t_philo;
 
 typedef struct s_rules
@@ -24,6 +27,7 @@ typedef struct s_rules
 	int	time_to_each_eat;
 	int	dead;
 	int	well_fed;
+	int	must_eat;
 }	t_rules;
 
 long long	ft_atoi(const char *str);

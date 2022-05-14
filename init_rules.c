@@ -10,7 +10,15 @@ int	init_rules(t_rules *rule, char **argv)
 	rule->well_fed = 0;
 	if (rule->number_of_ph < 2 || rule->time_to_die < 0
 		|| rule->time_to_eat < 0 || rule->time_to_sleep < 0
-		|| rule->number_of_ph > 250);
+		|| rule->number_of_ph > 250)
 		return (-1);
-	
+	if (argv[5])
+	{
+		rule->must_eat = ft_atoi(argv[5]);
+		if (rule->must_eat <= 0)
+			return (-1);
+	}
+	else
+		rule->must_eat = -1;
+	return (0);
 }
