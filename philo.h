@@ -30,7 +30,7 @@ typedef struct s_rules
 	long long		time;
 	pthread_mutex_t	meal;
 	pthread_mutex_t	forks[250];
-	pthread_mutex_t	think;
+	pthread_mutex_t	write;
 	t_philo			philosophers[250];
 }	t_rules;
 

@@ -1,8 +1,27 @@
 #include "philo.h"
 
-void *thread_process(void *void_philo)
+void	eating(t_philo *philo)
 {
 
+}
+
+void	*thread_process(void *void_philo)
+{
+	int		i;
+	t_philo	*philo;
+	t_rules	*rule;
+
+	i = 0;
+	philo = (t_philo *)void_philo;
+	rule = philo->rules;
+	if (philo->id % 2)
+		usleep(15000);
+	while (!(rule->dead))
+	{
+		eating(philo);
+		if (rule->well_fed)
+			break ;
+	}
 }
 
 int	start(t_rules *rule)
