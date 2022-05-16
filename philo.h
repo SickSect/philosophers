@@ -35,6 +35,7 @@ typedef struct s_rules
 }	t_rules;
 
 long long	ft_atoi(const char *str);
+long long	timestamp(void);
 int			init_rules(t_rules *rule, char **argv);
 int			init_philo(t_rules *rules);
 int 		start(t_rules *rule);

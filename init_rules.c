@@ -10,7 +10,7 @@ int	init_mutex(t_rules *rules)
 		if (pthread_mutex_init(&(rules->forks[i]), NULL))
 			return (1);
 	}
-	if (pthread_mutex_init(&(rules->think), NULL))
+	if (pthread_mutex_init(&(rules->write), NULL))
 		return (1);
 	if (pthread_mutex_init(&(rules->meal), NULL))
 		return (1);
