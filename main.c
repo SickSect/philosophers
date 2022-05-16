@@ -24,5 +24,6 @@ int	main(int argc, char **argv)
 	}
 	init = init_rules(&rule, argv);
 	if (init_mutex(&rule))
-		return (2);
+		return (-1);
+	init_philo(&rule);
 }
