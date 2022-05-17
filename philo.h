@@ -14,6 +14,7 @@ typedef struct s_philo
 	int					right_fork;
 	int					id;
 	int					ate;
+	long long			meal_timestamp;
 	struct s_rules		*rules;
 	pthread_t			thread_id;
 }	t_philo;
@@ -38,5 +39,10 @@ long long	ft_atoi(const char *str);
 long long	timestamp(void);
 int			init_rules(t_rules *rule, char **argv);
 int			init_philo(t_rules *rules);
+int			init_mutex(t_rules *rules);
 int 		start(t_rules *rule);
+void		act_printer(t_rules *rule, int id, char *str);
+long long	diff_timer(long long prev, long long next);
+void		sleeping(int time_to_sleep, t_rules* rule);
+void		exit_ph(t_rules *rules, t_philo *philo);
 #endif

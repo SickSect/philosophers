@@ -1,5 +1,10 @@
 #include "philo.h"
 
+long long	diff_timer(long long prev, long long next)
+{
+	return (next - prev);
+}
+
 long long	timestamp(void)
 {
 	struct timeval	t;
