@@ -3,7 +3,7 @@ NAME		=	philo
 CC			=	gcc
 FLAGS		=	-Wall -Wextra -Werror -O0 -g
 
-SRC			=	main.c init_rules.c utils.c
+SRC			=	main.c init_rules.c utils.c thread_starting.c utils_proc.c
 
 OBJ			=	$(SRC:.c=.o)
 OBJ_BONUS	=	$(SRC_BONUS:.c=.o)

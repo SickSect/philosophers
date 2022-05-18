@@ -1,18 +1,5 @@
 #include "philo.h"
 
-void act_printer(t_rules *rule, int id, char *str)
-{
-	pthread_mutex_lock(&(rule->write));
-	if (!(rule->dead))
-	{
-		printf("%lli ", timestamp() - rule->time);
-		printf("%i ", id + 1);
-		printf("%s\n", str);
-	}
-	pthread_mutex_unlock(&(rule->write));
-	return ;
-}
-
 void	err(char *error)
 {
 	int	len;
@@ -35,6 +22,10 @@ int	main(int argc, char **argv)
 		err("Wrong amount of arguments!");
 		return (-1);
 	}
-	
+	init = initialisation(&rule, argv);
+	if (init != 0)
+		return (init);
+	moment();
+	//init = thread_starting(&rule);
 	return (0);
 }

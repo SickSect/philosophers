@@ -33,14 +33,14 @@ typedef struct s_rules
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	forks_mutex[250];
 	t_philo			philosophers[250];
-
-
-	
 }	t_rules;
 
 long long	ft_atoi(const char *str);
 long long	timestamp(void);
-int			initialisation(t_rules *rule, char *argv);
+int			initialisation(t_rules *rule, char **argv);
 void		err(char *error);
-void		act_printer(t_rules *rule, int id, char *str);
+long long	moment(void);
+long long	cut_moment(long long before, long long after);\
+void		doing(long long time, t_rules *rule);
+void		print_action(char *action, t_rules *rule, int id);
 #endif

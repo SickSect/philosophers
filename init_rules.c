@@ -34,16 +34,29 @@ static int	init_philo(t_rules *rules)
 		rules->philosophers[i].last_meal_timer = 0;
 		rules->philosophers[i].left_fork_id = i;
 		rules->philosophers[i].right_fork_id = (i + 1) % rules->philo_amount;
-		
+		rules->philosophers[i].rules = rules;
 	}
+	return (0);
 }
 
 static int	init_mutex(t_rules *rules)
 {
+	int	i;
 
+	i = rules->philo_amount;
+	while (--i >= 0)
+	{
+		if (pthread_mutex_init(&(rules->forks_mutex[i]), NULL))
+			return (-2);
+	}
+	if (pthread_mutex_init(&(rules->write_mutex), NULL))
+		return (-2);
+	if (pthread_mutex_init(&(rules->write_mutex), NULL))
+		return (-2);
+	return (0);
 }
 
-int	initialisation(t_rules *rule, char *argv)
+int	initialisation(t_rules *rule, char **argv)
 {
 	int	init;
 
@@ -51,7 +64,14 @@ int	initialisation(t_rules *rule, char *argv)
 	if (init != 0)
 	{
 		err("There is an error at initialisation terms");
-		return (-1);
+		return (init);
 	}
-	init = init_philo(rule);
+	init_philo(rule);
+	init = init_mutex(rule);
+	if (init != 0)
+	{
+		err("There is an error at creating mutex");
+		return (init);
+	}
+	return (0);
 }
