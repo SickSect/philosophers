@@ -10,39 +10,37 @@
 
 typedef struct s_philo
 {
-	int					left_fork;
-	int					right_fork;
-	int					id;
-	int					ate;
-	long long			meal_timestamp;
-	struct s_rules		*rules;
-	pthread_t			thread_id;
+	pthread_t		thread_id;
+	long long		last_meal_timer;
+	int				id;
+	int				ate;
+	int				left_fork_id;
+	int				right_fork_id;
+	struct s_rules	*rules;	
 }	t_philo;
 
 typedef struct s_rules
 {
-	int				number_of_ph;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				dead;
-	int				well_fed;
-	int				must_eat;
-	long long		time;
-	pthread_mutex_t	meal;
-	pthread_mutex_t	forks[250];
-	pthread_mutex_t	write;
+	long long		first_time;
+	int				eat_timer;
+	int				sleep_timer;
+	int				death_timer;
+	int				philo_amount;
+	int				max_meal;
+	int				death_status;
+	int				amount_fed_philo;
+	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	forks_mutex[250];
 	t_philo			philosophers[250];
+
+
+	
 }	t_rules;
 
 long long	ft_atoi(const char *str);
 long long	timestamp(void);
-int			init_rules(t_rules *rule, char **argv);
-int			init_philo(t_rules *rules);
-int			init_mutex(t_rules *rules);
-int 		start(t_rules *rule);
+int			initialisation(t_rules *rule, char *argv);
+void		err(char *error);
 void		act_printer(t_rules *rule, int id, char *str);
-long long	diff_timer(long long prev, long long next);
-void		sleeping(int time_to_sleep, t_rules* rule);
-void		exit_ph(t_rules *rules, t_philo *philo);
 #endif

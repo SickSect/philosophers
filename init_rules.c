@@ -1,57 +1,57 @@
 #include "philo.h"
 
-int	init_mutex(t_rules *rules)
+static int	init_rules(t_rules *rule, char **argv)
 {
-	int	i;
-
-	i = rules->number_of_ph;
-	while (--i >= 0)
-	{
-		if (pthread_mutex_init(&(rules->forks[i]), NULL))
-			return (1);
-	}
-	if (pthread_mutex_init(&(rules->write), NULL))
-		return (1);
-	if (pthread_mutex_init(&(rules->meal), NULL))
-		return (1);
-	return (0);
-}
-
-int	init_philo(t_rules *rules)
-{
-	int	i;
-
-	i = rules->number_of_ph;
-	while (--i >= 0)
-	{
-		rules->philosophers[i].id = i;
-		rules->philosophers[i].left_fork = i;
-		rules->philosophers[i].right_fork = (i + 1) % rules->number_of_ph;
-		rules->philosophers[i].rules = rules;
-		rules->philosophers[i].ate = 0;
-	}
-	return (0);
-}
-
-int	init_rules(t_rules *rule, char **argv)
-{
-	rule->number_of_ph = ft_atoi(argv[1]);
-	rule->time_to_die = ft_atoi(argv[2]);
-	rule->time_to_eat = ft_atoi(argv[3]);
-	rule->time_to_sleep = ft_atoi(argv[4]);
-	rule->dead = 0;
-	rule->well_fed = 0;
-	if (rule->number_of_ph < 2 || rule->time_to_die < 0
-		|| rule->time_to_eat < 0 || rule->time_to_sleep < 0
-		|| rule->number_of_ph > 250)
+	rule->philo_amount = ft_atoi(argv[1]);
+	rule->death_timer = ft_atoi(argv[2]);
+	rule->eat_timer = ft_atoi(argv[3]);
+	rule->sleep_timer = ft_atoi(argv[4]);
+	rule->amount_fed_philo = 0;
+	rule->death_status = 0;
+	if (rule->philo_amount < 2 || rule->death_timer < 0 || rule->eat_timer < 0
+		|| rule->sleep_timer < 0 || rule->philo_amount > 250)
 		return (-1);
 	if (argv[5])
 	{
-		rule->must_eat = ft_atoi(argv[5]);
-		if (rule->must_eat <= 0)
+		rule->max_meal = ft_atoi(argv[5]);
+		if (rule->max_meal <= 0)
 			return (-1);
 	}
 	else
-		rule->must_eat = -1;
+		rule->max_meal = -1;
 	return (0);
+}
+
+static int	init_philo(t_rules *rules)
+{
+	int	i;
+
+	i = rules->philo_amount;
+	while (--i >= 0)
+	{
+		rules->philosophers[i].id = i;
+		rules->philosophers[i].ate = 0;
+		rules->philosophers[i].last_meal_timer = 0;
+		rules->philosophers[i].left_fork_id = i;
+		rules->philosophers[i].right_fork_id = (i + 1) % rules->philo_amount;
+		
+	}
+}
+
+static int	init_mutex(t_rules *rules)
+{
+
+}
+
+int	initialisation(t_rules *rule, char *argv)
+{
+	int	init;
+
+	init = init_rules(rule, argv);
+	if (init != 0)
+	{
+		err("There is an error at initialisation terms");
+		return (-1);
+	}
+	init = init_philo(rule);
 }

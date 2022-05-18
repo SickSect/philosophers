@@ -35,17 +35,6 @@ int	main(int argc, char **argv)
 		err("Wrong amount of arguments!");
 		return (-1);
 	}
-	init = init_rules(&rule, argv);
-	if ((init = init_mutex(&rule)))
-	{
-		err("There was an error creating mutex");
-		return (init);
-	}
-	init = init_philo(&rule);
-	if (start(&rule))
-	{
-		err("There was an error creating the threads");
-		return (init);
-	}
+	
 	return (0);
 }
