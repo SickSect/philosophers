@@ -18,7 +18,7 @@ void	print_action(char *action, t_rules *rule, int id)
 	pthread_mutex_lock(&(rule->write_mutex));
 	if (!(rule->death_status))
 	{
-		printf("%lli", moment() - rule->first_time);
+		printf("%lli ", moment() - rule->first_time);
 		printf("%i ", id + 1);
 		printf("%s\n", action);
 	}

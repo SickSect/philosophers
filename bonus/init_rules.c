@@ -8,9 +8,9 @@ static int	init_rules(t_rules *rule, char **argv)
 	rule->sleep_timer = ft_atoi(argv[4]);
 	rule->amount_fed_philo = 0;
 	rule->death_status = 0;
-	if (rule->philo_amount < 2 || rule->death_timer < 0 || rule->eat_timer < 0
+	if (rule->philo_amount < 0 || rule->death_timer < 0 || rule->eat_timer < 0
 		|| rule->sleep_timer < 0 || rule->philo_amount > 250)
-		return (-1);
+		return (-2);
 	if (argv[5])
 	{
 		rule->max_meal = ft_atoi(argv[5]);
@@ -63,7 +63,10 @@ int	initialisation(t_rules *rule, char **argv)
 	init = init_rules(rule, argv);
 	if (init != 0)
 	{
-		err("There is an error at initialisation terms");
+		if (init == -2)
+			err("Wrong argument");
+		else
+			err("There is an error at initialisation terms");
 		return (init);
 	}
 	init_philo(rule);

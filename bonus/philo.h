@@ -40,7 +40,8 @@ long long	timestamp(void);
 int			initialisation(t_rules *rule, char **argv);
 void		err(char *error);
 long long	moment(void);
-long long	cut_moment(long long before, long long after);\
+long long	cut_moment(long long before, long long after);
 void		doing(long long time, t_rules *rule);
 void		print_action(char *action, t_rules *rule, int id);
+int			thread_starting(t_rules *rules);
 #endif

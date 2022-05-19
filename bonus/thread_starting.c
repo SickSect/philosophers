@@ -1,10 +1,18 @@
 #include "philo.h"
 
-static void	leave()
+static void	leave(t_rules *rule, t_philo *ph)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
+	while (i++ < rule->philo_amount)
+		pthread_join(ph[i].thread_id, NULL);
+	i = 0;
+	while (i++ < rule->philo_amount)
+		pthread_mutex_destroy(&(rule->forks_mutex[i]));
+	pthread_mutex_destroy(&(rule->write_mutex));
+	pthread_mutex_destroy(&(rule->meal_mutex));
+
 }
 
 static void	if_death(t_rules *rule, t_philo *ph)
@@ -93,6 +101,7 @@ int	thread_starting(t_rules *rules)
 		ph[i].last_meal_timer = moment();
 		i++;
 	}
-	if_death(rule, ph);
-
+	if_death(rules, ph);
+	leave(rules, ph);
+	return (0);
 }
