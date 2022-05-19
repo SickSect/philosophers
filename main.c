@@ -26,6 +26,6 @@ int	main(int argc, char **argv)
 	if (init != 0)
 		return (init);
 	moment();
-	//init = thread_starting(&rule);
+	init = thread_starting(&rule);
 	return (0);
 }

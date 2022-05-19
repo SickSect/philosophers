@@ -1,4 +1,40 @@
 #include "philo.h"
+
+static void	leave()
+{
+	int	i;
+
+	i = -1;
+}
+
+static void	if_death(t_rules *rule, t_philo *ph)
+{
+	int	i;
+
+	while (!(rule->amount_fed_philo))
+	{
+		i = -1;
+		while (++i < rule->philo_amount && !(rule->death_status))
+		{
+			pthread_mutex_lock(&(rule->meal_mutex));
+			if (cut_moment(ph[i].last_meal_timer, moment()) > rule->death_timer)
+			{
+				print_action("died", rule, i);
+				rule->death_status = 1;
+			}
+			pthread_mutex_unlock(&(rule->meal_mutex));
+			usleep(100);
+		}
+		if (rule->death_status)
+			break ;
+		i = 0;
+		while (rule->max_meal != -1 && i < rule->philo_amount && ph[i].ate >= rule->max_meal)
+			i++;
+		if (i == rule->philo_amount)
+			rule->amount_fed_philo = 1;
+	}
+}
+
 static void	eating(t_philo *ph)
 {
 	t_rules	*rule;
@@ -18,7 +54,7 @@ static void	eating(t_philo *ph)
 	pthread_mutex_unlock(&(rule->forks_mutex[ph->right_fork_id]));
 }
 
-static void *process(void *void_ph)
+static void	*process(void *void_ph)
 {
 	int		i;
 	t_philo	*ph;
@@ -33,6 +69,11 @@ static void *process(void *void_ph)
 	{
 		eating(ph);
 		if (rule->amount_fed_philo)
+			break ;
+		print_action("is sleeping", rule, ph->id);
+		doing(rule->sleep_timer, rule);
+		print_action("is thinking", rule, ph->id);
+		i++;
 	}
 	return (NULL);
 }
@@ -52,4 +93,6 @@ int	thread_starting(t_rules *rules)
 		ph[i].last_meal_timer = moment();
 		i++;
 	}
+	if_death(rule, ph);
+
 }
