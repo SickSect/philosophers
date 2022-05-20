@@ -34,7 +34,6 @@ static void	if_death(t_rules *rule, t_philo *ph)
 			usleep(100);
 		}
 		if (rule->death_status)
-
 			break ;
 		i = 0;
 		while (rule->max_meal != -1 && i < rule->philo_amount && ph[i].ate >= rule->max_meal)
