@@ -51,7 +51,7 @@ static int	init_mutex(t_rules *rules)
 	}
 	if (pthread_mutex_init(&(rules->write_mutex), NULL))
 		return (-2);
-	if (pthread_mutex_init(&(rules->write_mutex), NULL))
+	if (pthread_mutex_init(&(rules->meal_mutex), NULL))
 		return (-2);
 	return (0);
 }

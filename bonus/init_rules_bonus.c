@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
 static int	init_rules(t_rules *rule, char **argv)
 {
@@ -39,20 +39,15 @@ static int	init_philo(t_rules *rules)
 	return (0);
 }
 
-static int	init_mutex(t_rules *rules)
+static int	init_semaphore(t_rules *rules)
 {
-	int	i;
-
-	i = rules->philo_amount;
-	while (--i >= 0)
-	{
-		if (pthread_mutex_init(&(rules->forks_mutex[i]), NULL))
-			return (-2);
-	}
-	if (pthread_mutex_init(&(rules->write_mutex), NULL))
-		return (-2);
-	if (pthread_mutex_init(&(rules->write_mutex), NULL))
-		return (-2);
+	sem_unlink("/philo_forks");
+	sem_unlink("/philo_write");
+	sem_unlink("/philo_meal");
+	rules->forks_sem = sem_open("/philo_forks", O_CREAT, S_IRWXU, rules->philo_amount);
+	rules->write_sem = sem_open("/philo_write", O_CREAT, S_IRWXU, 1);
+	rules->meal_sem = sem_open("/philo_meal", O_CREAT, S_IRWXU, 1);
+	
 	return (0);
 }
 
@@ -70,10 +65,10 @@ int	initialisation(t_rules *rule, char **argv)
 		return (init);
 	}
 	init_philo(rule);
-	init = init_mutex(rule);
+	init = init_semaphore(rule);
 	if (init != 0)
 	{
-		err("There is an error at creating mutex");
+		err("There is an error at creating semaphore");
 		return (init);
 	}
 	return (0);

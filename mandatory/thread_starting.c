@@ -4,15 +4,14 @@ static void	leave(t_rules *rule, t_philo *ph)
 {
 	int	i;
 
-	i = 0;
-	while (i++ < rule->philo_amount)
+	i = -1;
+	while (++i < rule->philo_amount)
 		pthread_join(ph[i].thread_id, NULL);
-	i = 0;
-	while (i++ < rule->philo_amount)
+	i = rule->philo_amount;
+	while (--i >= 0)
 		pthread_mutex_destroy(&(rule->forks_mutex[i]));
 	pthread_mutex_destroy(&(rule->write_mutex));
 	pthread_mutex_destroy(&(rule->meal_mutex));
-
 }
 
 static void	if_death(t_rules *rule, t_philo *ph)

@@ -3,10 +3,13 @@
 
 # include <sys/time.h>
 # include <unistd.h>
-# include <stdlib.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
 # include <pthread.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 
 typedef struct s_philo
 {
@@ -29,9 +32,10 @@ typedef struct s_rules
 	int				max_meal;
 	int				death_status;
 	int				amount_fed_philo;
-	pthread_mutex_t	write_mutex;
-	pthread_mutex_t	meal_mutex;
-	pthread_mutex_t	forks_mutex[250];
+	//
+	sem_t			*write_sem;
+	sem_t			*meal_sem;
+	sem_t			*forks_sem;
 	t_philo			philosophers[250];
 }	t_rules;
 

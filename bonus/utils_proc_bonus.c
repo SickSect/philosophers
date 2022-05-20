@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	doing(long long time, t_rules *rule)
 {
@@ -15,14 +15,14 @@ void	doing(long long time, t_rules *rule)
 
 void	print_action(char *action, t_rules *rule, int id)
 {
-	pthread_mutex_lock(&(rule->write_mutex));
+	sem_wait(rule->write_sem);
 	if (!(rule->death_status))
 	{
-		printf("%lli ", moment() - rule->first_time);
-		printf("%i ", id + 1);
+		printf("time |%lli| ", moment() - rule->first_time);
+		printf(" ID |%i| ", id + 1);
 		printf("%s\n", action);
 	}
-	pthread_mutex_unlock(&(rule->write_mutex));
+	sem_post(rule->write_sem);
 	return ;
 }
 

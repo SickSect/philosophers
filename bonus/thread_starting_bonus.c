@@ -1,18 +1,18 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
 static void	leave(t_rules *rule, t_philo *ph)
 {
 	int	i;
 
-	i = 0;
-	while (i++ < rule->philo_amount)
+	i = -1;
+	while (++i < rule->philo_amount)
 		pthread_join(ph[i].thread_id, NULL);
-	i = 0;
-	while (i++ < rule->philo_amount)
-		pthread_mutex_destroy(&(rule->forks_mutex[i]));
-	pthread_mutex_destroy(&(rule->write_mutex));
-	pthread_mutex_destroy(&(rule->meal_mutex));
-
+	sem_close(rule->forks_sem);
+	sem_close(rule->write_sem);
+	sem_close(rule->meal_sem);
+	sem_unlink("/philo_forks");
+	sem_unlink("/philo_write");
+	sem_unlink("/philo_meal");
 }
 
 static void	if_death(t_rules *rule, t_philo *ph)
@@ -24,16 +24,17 @@ static void	if_death(t_rules *rule, t_philo *ph)
 		i = -1;
 		while (++i < rule->philo_amount && !(rule->death_status))
 		{
-			pthread_mutex_lock(&(rule->meal_mutex));
+			sem_wait(rule->meal_sem);
 			if (cut_moment(ph[i].last_meal_timer, moment()) > rule->death_timer)
 			{
 				print_action("died", rule, i);
 				rule->death_status = 1;
 			}
-			pthread_mutex_unlock(&(rule->meal_mutex));
+			sem_post(rule->meal_sem);
 			usleep(100);
 		}
 		if (rule->death_status)
+
 			break ;
 		i = 0;
 		while (rule->max_meal != -1 && i < rule->philo_amount && ph[i].ate >= rule->max_meal)
@@ -45,21 +46,22 @@ static void	if_death(t_rules *rule, t_philo *ph)
 
 static void	eating(t_philo *ph)
 {
+	
 	t_rules	*rule;
 
 	rule = ph->rules;
-	pthread_mutex_lock(&(rule->forks_mutex[ph->left_fork_id]));
+	sem_wait(rule->forks_sem);
 	print_action("has taken a fork", rule, ph->id);
-	pthread_mutex_lock(&(rule->forks_mutex[ph->right_fork_id]));
+	sem_wait(rule->forks_sem);
 	print_action("has taken a fork", rule, ph->id);
-	pthread_mutex_lock(&(rule->meal_mutex));
+	sem_wait(rule->meal_sem);
 	print_action("is eating", rule, ph->id);
 	ph->last_meal_timer = moment();
-	pthread_mutex_unlock(&(rule->meal_mutex));
+	sem_post(rule->meal_sem);
 	doing(rule->eat_timer, rule);
 	(ph->ate)++;
-	pthread_mutex_unlock(&(rule->forks_mutex[ph->left_fork_id]));
-	pthread_mutex_unlock(&(rule->forks_mutex[ph->right_fork_id]));
+	sem_post(rule->forks_sem);
+	sem_post(rule->forks_sem);
 }
 
 static void	*process(void *void_ph)
