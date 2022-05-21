@@ -44,10 +44,10 @@ static int	init_semaphore(t_rules *rules)
 	sem_unlink("/philo_forks");
 	sem_unlink("/philo_write");
 	sem_unlink("/philo_meal");
-	rules->forks_sem = sem_open("/philo_forks", O_CREAT, S_IRWXU, rules->philo_amount);
+	rules->forks_sem = sem_open("/philo_forks",
+			O_CREAT, S_IRWXU, rules->philo_amount);
 	rules->write_sem = sem_open("/philo_write", O_CREAT, S_IRWXU, 1);
 	rules->meal_sem = sem_open("/philo_meal", O_CREAT, S_IRWXU, 1);
-	
 	return (0);
 }
 

@@ -1,5 +1,5 @@
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <sys/time.h>
 # include <unistd.h>
@@ -32,7 +32,6 @@ typedef struct s_rules
 	int				max_meal;
 	int				death_status;
 	int				amount_fed_philo;
-	//
 	sem_t			*write_sem;
 	sem_t			*meal_sem;
 	sem_t			*forks_sem;

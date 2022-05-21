@@ -36,7 +36,8 @@ static void	if_death(t_rules *rule, t_philo *ph)
 		if (rule->death_status)
 			break ;
 		i = 0;
-		while (rule->max_meal != -1 && i < rule->philo_amount && ph[i].ate >= rule->max_meal)
+		while (rule->max_meal != -1 && i < rule->philo_amount
+			&& ph[i].ate >= rule->max_meal)
 			i++;
 		if (i == rule->philo_amount)
 			rule->amount_fed_philo = 1;
@@ -45,7 +46,6 @@ static void	if_death(t_rules *rule, t_philo *ph)
 
 static void	eating(t_philo *ph)
 {
-	
 	t_rules	*rule;
 
 	rule = ph->rules;
