@@ -48,6 +48,7 @@ static void	eating(t_philo *ph)
 	t_rules	*rule;
 
 	rule = ph->rules;
+	// need to add feature!! depend on biggest fork id
 	pthread_mutex_lock(&(rule->forks_mutex[ph->left_fork_id]));
 	print_action("has taken a fork", rule, ph->id);
 	pthread_mutex_lock(&(rule->forks_mutex[ph->right_fork_id]));
