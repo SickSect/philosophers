@@ -4,8 +4,8 @@ static void	leave(t_rules *rule, t_philo *ph)
 {
 	int	i;
 
-	i = -1;
-	while (++i < rule->philo_amount)
+	i = 0;
+	while (i++ < rule->philo_amount)
 		pthread_join(ph[i].thread_id, NULL);
 	sem_close(rule->forks_sem);
 	sem_close(rule->write_sem);
