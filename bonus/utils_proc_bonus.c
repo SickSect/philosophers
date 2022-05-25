@@ -30,8 +30,8 @@ void	print_action(char *action, t_rules *rule, int id)
 	sem_wait(rule->write_sem);
 	if (!(rule->death_status))
 	{
-		printf("time |%lli| ", moment() - rule->first_time);
-		printf(" ID |%i| ", id + 1);
+		printf("%lli ", moment() - rule->first_time);
+		printf("%i ", id + 1);
 		printf("%s\n", action);
 	}
 	sem_post(rule->write_sem);
