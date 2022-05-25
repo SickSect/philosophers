@@ -1,21 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_rules.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ugina <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 11:13:27 by ugina             #+#    #+#             */
+/*   Updated: 2022/05/25 11:13:29 by ugina            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
+
+static int	what_is_arg(char **argv)
+{
+	if (!check_arg_if_digit(argv[1]))
+		return (-2);
+	if (!check_arg_if_digit(argv[2]))
+		return (-2);
+	if (!check_arg_if_digit(argv[3]))
+		return (-2);
+	if (!check_arg_if_digit(argv[4]))
+		return (-2);
+	if (argv[5])
+	{
+		if (!check_arg_if_digit(argv[5]))
+			return (-2);
+	}
+	return (1);
+}
 
 static int	init_rules(t_rules *rule, char **argv)
 {
+	if (!what_is_arg(argv))
+	{
+		printf("BAD\n");
+		return (-2);
+	}
 	rule->philo_amount = ft_atoi(argv[1]);
 	rule->death_timer = ft_atoi(argv[2]);
 	rule->eat_timer = ft_atoi(argv[3]);
 	rule->sleep_timer = ft_atoi(argv[4]);
 	rule->amount_fed_philo = 0;
 	rule->death_status = 0;
-	if (rule->philo_amount < 0 || rule->death_timer < 0 || rule->eat_timer < 0
+	if (rule->philo_amount <= 0 || rule->death_timer < 0 || rule->eat_timer < 0
 		|| rule->sleep_timer < 0 || rule->philo_amount > 250)
 		return (-2);
 	if (argv[5])
 	{
 		rule->max_meal = ft_atoi(argv[5]);
 		if (rule->max_meal <= 0)
-			return (-1);
+			return (-2);
 	}
 	else
 		rule->max_meal = -1;
@@ -65,8 +100,6 @@ int	initialisation(t_rules *rule, char **argv)
 	{
 		if (init == -2)
 			err("Wrong argument");
-		else
-			err("There is an error at initialisation terms");
 		return (init);
 	}
 	init_philo(rule);
