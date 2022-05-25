@@ -17,6 +17,20 @@ int	ft_isdigit(int ch)
 	return (ch >= '0' && ch <= '9');
 }
 
+int	check_arg_if_digit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]) && str[i] != '-' && str[i] != '+')
+			return (-1);
+		i++;
+	}
+	return (1);
+}
+
 static long long	ft_whiler(const char *str, int neg, int i)
 {
 	long long	res;

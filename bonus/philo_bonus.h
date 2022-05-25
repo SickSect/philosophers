@@ -59,4 +59,5 @@ long long	cut_moment(long long before, long long after);
 void		doing(long long time, t_rules *rule);
 void		print_action(char *action, t_rules *rule, int id);
 int			thread_starting(t_rules *rules);
+int			check_arg_if_digit(char *str);
 #endif

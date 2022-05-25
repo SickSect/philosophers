@@ -12,8 +12,28 @@
 
 #include "philo_bonus.h"
 
+static int	what_is_arg(char **argv)
+{
+	if (check_arg_if_digit(argv[1]) == -1)
+		return (0);
+	if (check_arg_if_digit(argv[2]) == -1)
+		return (0);
+	if (check_arg_if_digit(argv[3]) == -1)
+		return (0);
+	if (check_arg_if_digit(argv[4]) == -1)
+		return (0);
+	if (argv[5])
+	{
+		if (check_arg_if_digit(argv[5]) == -1)
+			return (0);
+	}
+	return (1);
+}
+
 static int	init_rules(t_rules *rule, char **argv)
 {
+	if (!what_is_arg(argv))
+		return (-2);
 	rule->philo_amount = ft_atoi(argv[1]);
 	rule->death_timer = ft_atoi(argv[2]);
 	rule->eat_timer = ft_atoi(argv[3]);
