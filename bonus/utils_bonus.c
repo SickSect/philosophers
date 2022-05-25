@@ -1,5 +1,10 @@
 #include "philo_bonus.h"
 
+int	ft_isdigit(int ch)
+{
+	return (ch >= '0' && ch <= '9');
+}
+
 static long long	ft_whiler(const char *str, int neg, int i)
 {
 	long long	res;
