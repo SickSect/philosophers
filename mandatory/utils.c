@@ -24,8 +24,7 @@ int	check_arg_if_digit(char *str)
 	i = 0;
 	while (str[i])
 	{
-		printf("STR IS %c\n",str[i]);
-		if (!ft_isdigit(str[i]) || str[i] != '-' || str[i] != '+')
+		if (!ft_isdigit(str[i]) && str[i] != '-' && str[i] != '+')
 			return (-1);
 		i++;
 	}
