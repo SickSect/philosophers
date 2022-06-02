@@ -40,7 +40,6 @@ static void	if_death(t_rules *rule, t_philo *ph)
 			{
 				print_action("died", rule, i);
 				rule->death_status = 1;
-				return ;
 			}
 			pthread_mutex_unlock(&(rule->meal_mutex));
 		}

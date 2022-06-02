@@ -43,7 +43,6 @@ static void	if_death(t_rules *rule, t_philo *ph)
 				rule->death_status = 1;
 			}
 			sem_post(rule->meal_sem);
-			usleep(100);
 		}
 		if (rule->death_status)
 			break ;
@@ -85,9 +84,11 @@ static void	*process(void *void_ph)
 	ph = (t_philo *) void_ph;
 	rule = ph->rules;
 	if (ph->id % 2)
-		usleep(15000);
+		usleep(1000);
 	while (!(rule->death_status))
 	{
+		if (rule->amount_fed_philo)
+			break ;
 		eating(ph);
 		if (rule->amount_fed_philo)
 			break ;
