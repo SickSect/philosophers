@@ -84,7 +84,7 @@ static void	*process(void *void_ph)
 	ph = (t_philo *) void_ph;
 	rule = ph->rules;
 	if (ph->id % 2)
-		usleep(1000);
+		usleep(rule->eat_timer);
 	while (!(rule->death_status))
 	{
 		if (rule->amount_fed_philo)
