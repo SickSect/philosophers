@@ -16,8 +16,8 @@ static void	leave(t_rules *rule, t_philo *ph)
 {
 	int	i;
 
-	i = 0;
-	while (i++ < rule->philo_amount)
+	i = -1;
+	while (++i < rule->philo_amount)
 		pthread_join(ph[i].thread_id, NULL);
 	i = rule->philo_amount;
 	while (--i >= 0)
@@ -30,7 +30,7 @@ static void	if_death(t_rules *rule, t_philo *ph)
 {
 	int	i;
 
-	while (!(rule->amount_fed_philo))
+	while (!(rule->amount_fed_philo) || !(rule->death_status))
 	{
 		i = -1;
 		while (++i < rule->philo_amount && !(rule->death_status))
@@ -40,9 +40,9 @@ static void	if_death(t_rules *rule, t_philo *ph)
 			{
 				print_action("died", rule, i);
 				rule->death_status = 1;
+				return ;
 			}
 			pthread_mutex_unlock(&(rule->meal_mutex));
-			usleep(100);
 		}
 		if (rule->death_status)
 			break ;
@@ -94,9 +94,11 @@ static void	*process(void *void_ph)
 	ph = (t_philo *) void_ph;
 	rule = ph->rules;
 	if (ph->id % 2)
-		usleep(15000);
-	while (!(rule->death_status))
+		usleep(rule->eat_timer);
+	while (!(rule->death_status) && !(rule->amount_fed_philo))
 	{
+		if (rule->amount_fed_philo)
+			break ;
 		eating(ph);
 		if (rule->amount_fed_philo)
 			break ;
